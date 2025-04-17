@@ -25,6 +25,7 @@ body {
   width: 100%;
   height: 100%;
   padding: 0 20px;
+  overflow: hidden;
 }
 
 .todo-app {
@@ -35,20 +36,29 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   color: white;
   border-radius: 20px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
   border: 3px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(10px);
-  max-height: 100vh;
+  max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  overflow-x: hidden;
 }
 
 .todo-app h1 {
   font-size: 2rem;
   text-align: center;
+  width: 100%;
+  margin-bottom: 5px;
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 0;
+  border-radius: 10px;
+  z-index: 10;
 }
 
 /* Word of the Day styling */
@@ -60,6 +70,8 @@ body {
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0.18);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 5;
 }
 
 .word-of-day:hover {
@@ -142,6 +154,12 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 30px;
 }
 
 .input-area input {
@@ -353,14 +371,31 @@ body {
 
 /* Small devices (phones, less than 576px) */
 @media (max-width: 575.98px) {
+  .container {
+    padding: 10px;
+  }
+  
   .todo-app {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     max-width: 100%;
     border-radius: 15px;
+    gap: 15px;
+    max-height: 95vh;
   }
   
   .todo-app h1 {
     font-size: 1.7rem;
+    padding: 5px 0;
+    margin-bottom: 0;
+  }
+  
+  .input-area {
+    top: 60px;
+    padding: 8px;
+  }
+  
+  .word-of-day {
+    padding: 12px;
   }
   
   .word-of-day h3 {
@@ -410,18 +445,22 @@ body {
   }
   
   .scroll-to-top {
-    width: 35px;
-    height: 35px;
-    bottom: 15px;
-    right: 15px;
+    width: 45px;
+    height: 45px;
+    bottom: 25px;
+    right: 25px;
+  }
+  
+  .scroll-to-top i {
+    font-size: 1.4rem;
   }
 }
 
 /* Extra small devices (small phones, less than 400px) */
 @media (max-width: 399.98px) {
   .todo-app {
-    padding: 1rem;
-    gap: 20px;
+    padding: 1rem 0.8rem;
+    gap: 12px;
   }
   
   .todo-app h1 {
@@ -449,6 +488,10 @@ body {
     width: 50px;
     height: 50px;
     font-size: 1rem;
+  }
+  
+  .input-area {
+    padding: 5px;
   }
   
   .input-area input {

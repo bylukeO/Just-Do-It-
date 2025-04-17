@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize AOS (Animate on Scroll)
   AOS.init({
-    once: false,
+    once: false, 
     mirror: true,
   });
   
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const wordMeaning = document.getElementById('word-meaning');
   const scrollToTopBtn = document.getElementById('scrollToTop');
   const todoApp = document.querySelector('.todo-app');
+  const statusMessage = document.getElementById('status-message');
   
   // Flag to prevent confetti on initial load
   let isInitialLoad = true;
@@ -41,23 +42,54 @@ document.addEventListener('DOMContentLoaded', () => {
     { word: "CREATE", meaning: "Courage to Realize Excellence And Transform Everything" }
   ];
   
-  // Set random motivational word
-  const setRandomWord = () => {
-    const randomIndex = Math.floor(Math.random() * motivationalWords.length);
-    const wordObj = motivationalWords[randomIndex];
-    motivationalWord.textContent = wordObj.word;
-    wordMeaning.textContent = wordObj.meaning;
+  // Initialize Typed.js for Motivational Word
+  let currentWordIndex = Math.floor(Math.random() * motivationalWords.length);
+  let wordTyped = null;
+  
+  // Function to initialize and display the word of the day
+  const displayMotivationalWord = () => {
+    // Clear previous content and typed instances
+    motivationalWord.innerHTML = '';
+    wordMeaning.innerHTML = '';
     
-    // Apply a new animation each time
-    const wordElement = document.querySelector('.word-of-day');
-    wordElement.classList.remove('aos-animate');
-    setTimeout(() => {
-      wordElement.classList.add('aos-animate');
-    }, 100);
+    if (wordTyped) {
+      wordTyped.destroy();
+    }
+    
+    // Initialize with new word - no cursor
+    wordTyped = new Typed('#motivational-word', {
+      strings: [motivationalWords[currentWordIndex].word],
+      typeSpeed: 60,
+      startDelay: 300,
+      showCursor: false, // Remove cursor
+      onComplete: (self) => {
+        // Once the word is typed, show the meaning
+        new Typed('#word-meaning', {
+          strings: [motivationalWords[currentWordIndex].meaning],
+          typeSpeed: 30,
+          startDelay: 200,
+          showCursor: false
+        });
+      }
+    });
   };
   
-  // Set initial word
-  setRandomWord();
+  // Initial display of motivational word
+  displayMotivationalWord();
+  
+  // Change to a new random motivational word
+  const setRandomWord = () => {
+    // Get a new random word (different from the current one)
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * motivationalWords.length);
+    } while (newIndex === currentWordIndex && motivationalWords.length > 1);
+    
+    currentWordIndex = newIndex;
+    
+    // Display the new word with typing animation
+    displayMotivationalWord();
+  };
   
   // Change word every 24 hours or on new day
   const lastWordDate = localStorage.getItem('lastWordDate');
@@ -66,6 +98,25 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lastWordDate !== today) {
     localStorage.setItem('lastWordDate', today);
   }
+  
+  // Add scroll event to change word
+  let lastScrollTop = 0;
+  let scrollThreshold = 300; // Amount of scroll before changing word
+  let scrollTimeout;
+  
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    
+    scrollTimeout = setTimeout(() => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Check if scrolled enough in either direction
+      if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+        setRandomWord();
+        lastScrollTop = scrollTop;
+      }
+    }, 100);
+  });
   
   // Check if scroll to top button should be shown
   const checkScrollPosition = () => {
@@ -134,13 +185,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if scroll button should be shown
     checkScrollPosition();
     
-    // Trigger confetti when all tasks are completed, but not on initial load
-    // AND not when tasks are deleted
-    if (!isInitialLoad && 
-        totalTasks > 0 && 
-        completedTasks === totalTasks && 
-        lastAction === 'complete') {
-      Confetti();
+    // Update status message based on task completion
+    if (totalTasks > 0 && completedTasks === totalTasks) {
+      // Change message to "Way to go fam" when all tasks are completed
+      statusMessage.textContent = "Way to go fam!";
+      statusMessage.classList.add('completed-message');
+      
+      // Trigger confetti when all tasks are completed, but not on initial load
+      // AND not when tasks are deleted
+      if (!isInitialLoad && lastAction === 'complete') {
+        Confetti();
+      }
+    } else {
+      // Reset message to "Keep It Up" when not all tasks are completed
+      statusMessage.textContent = "Keep It Up";
+      statusMessage.classList.remove('completed-message');
     }
   };
   

@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize AOS (Animate on Scroll)
   AOS.init({
-    once: false, // whether animation should happen only once - while scrolling down
-    mirror: true, // whether elements should animate out while scrolling past them
+    once: false,
+    mirror: true,
   });
   
   const taskInput = document.getElementById('task-input');
@@ -14,9 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const numbers = document.getElementById('numbers');
   const motivationalWord = document.getElementById('motivational-word');
   const wordMeaning = document.getElementById('word-meaning');
+  const scrollToTopBtn = document.getElementById('scrollToTop');
+  const todoApp = document.querySelector('.todo-app');
   
   // Flag to prevent confetti on initial load
   let isInitialLoad = true;
+  
+  // Track the last action type to prevent confetti on delete
+  let lastAction = null; // 'complete', 'delete', 'add', 'edit'
   
   // Stats tracking
   let totalTasks = 0;
@@ -60,26 +65,59 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (lastWordDate !== today) {
     localStorage.setItem('lastWordDate', today);
-    // We already set a random word above
   }
   
-  // Add scroll event to change word
-  let lastScrollTop = 0;
-  let scrollThreshold = 300; // Amount of scroll before changing word
-  let scrollTimeout;
-  
-  window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    
-    scrollTimeout = setTimeout(() => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  // Check if scroll to top button should be shown
+  const checkScrollPosition = () => {
+    // Show scroll button if there are many tasks
+    if (taskList.children.length > 7) {
+      scrollToTopBtn.style.display = 'flex';
       
-      // Check if scrolled enough in either direction
-      if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
-        setRandomWord();
-        lastScrollTop = scrollTop;
+      // Check scroll position within todos container
+      if (todosContainer.scrollTop > 100) {
+        scrollToTopBtn.classList.add('show');
+      } else {
+        scrollToTopBtn.classList.remove('show');
       }
-    }, 100);
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  };
+  
+  // Listen for scroll events on the todos container
+  todosContainer.addEventListener('scroll', () => {
+    checkScrollPosition();
+  });
+  
+  // Also listen for scroll events on the main app container
+  todoApp.addEventListener('scroll', () => {
+    checkScrollPosition();
+  });
+  
+  // And on the document body for good measure
+  document.addEventListener('scroll', () => {
+    checkScrollPosition();
+  });
+  
+  // Scroll to top button functionality
+  scrollToTopBtn.addEventListener('click', () => {
+    // Scroll the todo container to the top
+    todosContainer.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
+    // Also scroll the main app container to the top
+    todoApp.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
+    // And the document if needed
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
   
   const updateStats = () => {
@@ -93,8 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update the numbers display
     numbers.textContent = `${completedTasks} / ${totalTasks}`;
     
+    // Check if scroll button should be shown
+    checkScrollPosition();
+    
     // Trigger confetti when all tasks are completed, but not on initial load
-    if (!isInitialLoad && totalTasks > 0 && completedTasks === totalTasks) {
+    // AND not when tasks are deleted
+    if (!isInitialLoad && 
+        totalTasks > 0 && 
+        completedTasks === totalTasks && 
+        lastAction === 'complete') {
       Confetti();
     }
   };
@@ -129,11 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
     emptyImage.style.display = taskList.children.length === 0 ? 'block' : 'none';
     todosContainer.style.width = taskList.children.length > 0 ? '100%' : '50%';
     updateStats();
+    
     // Save to local storage whenever the task list changes
     saveTasksToLocalStorage();
   };
   
   const addTask = (text, completed = false) => {
+    lastAction = 'add';
     const taskText = text || taskInput.value.trim();
     if (!taskText) {
       return;
@@ -161,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     checkbox.addEventListener('change', () => {
+      lastAction = 'complete';
       const isChecked = checkbox.checked;
       li.classList.toggle('completed', isChecked);
       editBtn.disabled = isChecked;
@@ -171,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     editBtn.addEventListener('click', () => {
+      lastAction = 'edit';
       if(!checkbox.checked) {
         taskInput.value = li.querySelector('span').textContent;
         li.remove();
@@ -179,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     li.querySelector('.delete-btn').addEventListener('click', () => {
+      lastAction = 'delete';
       li.remove();
       toggleEmptyState();
     });
@@ -212,6 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize the empty state after loading tasks
   toggleEmptyState();
+  
+  // Initial check for scroll button
+  checkScrollPosition();
 });
 
 const Confetti = () => {

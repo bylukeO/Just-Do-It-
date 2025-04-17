@@ -16,16 +16,16 @@
     <div class="todo-app">
       <h1>You Can Do It, LFG🔥</h1>
       
-      <!-- Word of the Day section with AOS animation -->
+      <!-- Word of the Day section with animated typing -->
       <div class="word-of-day" data-aos="fade-up" data-aos-duration="800">
         <h3>Word of the Day</h3>
-        <p id="motivational-word">FOCUS</p>
-        <p id="word-meaning">Follow One Course Until Success</p>
+        <p id="motivational-word"></p>
+        <p id="word-meaning"></p>
       </div>
       
       <div class="stat-container">
         <div class="details">
-          <h3>Keep It Up</h3>
+          <h3 id="status-message">Keep It Up</h3>
           <div id="progressbar">
             <div id="progress"></div>
           </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <form class="input-area">
-        <input type="text" id="task-input" placeholder="What Are You Doing Today?">
+        <input type="text" id="task-input" placeholder="Wagwan My Guy....?">
         <button type="submit" id="add-task"><i class="fa-solid fa-plus"></i></button>
       </form>
       <div class="todos-container">
@@ -51,6 +51,8 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
   
+  <!-- Add Typed.js library -->
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>

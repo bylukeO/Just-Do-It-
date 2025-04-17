@@ -345,7 +345,7 @@ SOFTWARE.
 
 ## 📬 Contact
 
-Your Name - [@byluke_O](https://x.com/byluke_o?s=11) - bylukeO@gmail.com
+Luke Oladejo - [@byluke_O](https://x.com/byluke_o?s=11) - bylukeO@gmail.com
 
 Project Link: (https://github.com/bylukeO/Just-Do-It-)
 

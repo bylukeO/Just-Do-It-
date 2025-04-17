@@ -64,7 +64,7 @@ body {
 /* Word of the Day styling */
 .word-of-day {
   width: 100%;
-  padding: 15px;
+  padding: 20px 15px;
   background: rgba(255, 194, 209, 0.3);
   border-radius: 15px;
   text-align: center;
@@ -72,6 +72,11 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   z-index: 5;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden; /* Prevent overflow */
 }
 
 .word-of-day:hover {
@@ -89,15 +94,39 @@ body {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: 2px;
-  margin: 5px 0;
+  margin: 10px 0;
+  padding-bottom: 5px;
   color: #ffbf00;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  min-height: 50px;
+  overflow-wrap: break-word; /* Allow word breaking */
+  word-break: break-all; /* Break words if needed */
+  display: block; /* Make it a block element */
+  width: 100%; /* Full width */
+  white-space: normal; /* Allow wrapping */
 }
 
 #word-meaning {
   font-size: 1rem;
   font-style: italic;
   opacity: 0.8;
+  min-height: 40px;
+  margin-top: 10px;
+  overflow-wrap: break-word; /* Allow word breaking */
+  display: block; /* Make it a block element */
+  width: 100%; /* Full width */
+  white-space: normal; /* Allow wrapping */
+}
+
+/* Pulse animation for the word */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
 .stat-container {
@@ -117,6 +146,22 @@ body {
 
 .details h3 {
   color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Style for the "Way to go fam!" message */
+.completed-message {
+  color: #ffbf00 !important;
+  font-weight: bold;
+  font-size: 1.3em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  animation: celebrate 1s ease-in-out;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 #progressbar {
@@ -395,7 +440,8 @@ body {
   }
   
   .word-of-day {
-    padding: 12px;
+    padding: 15px;
+    min-height: 140px;
   }
   
   .word-of-day h3 {
@@ -404,10 +450,14 @@ body {
   
   #motivational-word {
     font-size: 1.7rem;
+    min-height: 40px;
+    margin: 8px 0;
   }
   
   #word-meaning {
     font-size: 0.9rem;
+    min-height: 35px;
+    margin-top: 8px;
   }
   
   .stat-container {
@@ -416,6 +466,10 @@ body {
   
   .details h3 {
     font-size: 1rem;
+  }
+  
+  .completed-message {
+    font-size: 1.2em;
   }
   
   #numbers {
@@ -468,20 +522,29 @@ body {
   }
   
   .word-of-day {
-    padding: 10px;
+    padding: 12px;
+    min-height: 130px;
   }
   
   #motivational-word {
     font-size: 1.5rem;
+    min-height: 35px;
+    margin: 6px 0;
   }
   
   #word-meaning {
     font-size: 0.8rem;
+    min-height: 30px;
+    margin-top: 6px;
   }
   
   .stat-container {
     padding: 8px 12px;
     gap: 10px;
+  }
+  
+  .completed-message {
+    font-size: 1.1em;
   }
   
   #numbers {

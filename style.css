@@ -45,12 +45,49 @@ body {
   text-align: center;
 }
 
+/* Word of the Day styling */
+.word-of-day {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 194, 209, 0.3);
+  border-radius: 15px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.word-of-day:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.word-of-day h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+#motivational-word {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 5px 0;
+  color: #ffbf00;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#word-meaning {
+  font-size: 1rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 .stat-container {
   padding: 15px 20px;
   border-radius: 10px;
   border: 2px solid rgba(255, 255, 255, 0.18);
   display: flex;
-  align-items: center;
+  align-content: center;
   justify-content: space-between;
   gap: 20px;
   width: 100%;
@@ -62,7 +99,6 @@ body {
 
 .details h3 {
   color: #fff;
-  font-size: 1.2rem;
 }
 
 #progressbar {
@@ -262,6 +298,18 @@ body {
     font-size: 1.7rem;
   }
   
+  .word-of-day h3 {
+    font-size: 1rem;
+  }
+  
+  #motivational-word {
+    font-size: 1.7rem;
+  }
+  
+  #word-meaning {
+    font-size: 0.9rem;
+  }
+  
   .stat-container {
     padding: 10px 15px;
   }
@@ -306,6 +354,18 @@ body {
   
   .todo-app h1 {
     font-size: 1.5rem;
+  }
+  
+  .word-of-day {
+    padding: 10px;
+  }
+  
+  #motivational-word {
+    font-size: 1.5rem;
+  }
+  
+  #word-meaning {
+    font-size: 0.8rem;
   }
   
   .stat-container {

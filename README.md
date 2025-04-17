@@ -2,7 +2,7 @@
 
 ## ✨ Overview
 
-"ust Do It" is a beautifully designed, feature-rich todo application that combines task management with motivational elements. Built with modern web technologies and sporting an elegant glass-morphism UI, this app helps users stay organized while providing motivational prompts to keep them inspired.
+"Just Do It" is a beautifully designed, feature-rich todo application that combines task management with motivational elements. Built with modern web technologies and sporting an elegant glass-morphism UI, this app helps users stay organized while providing motivational prompts to keep them inspired.
 
 The app features a responsive design that works seamlessly across all devices, local storage for data persistence, progress tracking with visual feedback, and celebratory animations when goals are achieved.
 

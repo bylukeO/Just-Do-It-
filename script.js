@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize AOS (Animate on Scroll)
+  AOS.init({
+    once: false, // whether animation should happen only once - while scrolling down
+    mirror: true, // whether elements should animate out while scrolling past them
+  });
+  
   const taskInput = document.getElementById('task-input');
   const addTaskBtn = document.getElementById('add-task');
   const taskList = document.getElementById('task-list');
@@ -6,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const todosContainer = document.querySelector('.todos-container');
   const progress = document.getElementById('progress');
   const numbers = document.getElementById('numbers');
+  const motivationalWord = document.getElementById('motivational-word');
+  const wordMeaning = document.getElementById('word-meaning');
   
   // Flag to prevent confetti on initial load
   let isInitialLoad = true;
@@ -13,6 +21,66 @@ document.addEventListener('DOMContentLoaded', () => {
   // Stats tracking
   let totalTasks = 0;
   let completedTasks = 0;
+  
+  // Motivational words array with meanings
+  const motivationalWords = [
+    { word: "FOCUS", meaning: "Follow One Course Until Success" },
+    { word: "PUSH", meaning: "Persist Until Something Happens" },
+    { word: "NOW", meaning: "No Opportunity Wasted" },
+    { word: "DREAM", meaning: "Dedication, Resilience, Effort, Ambition, Motivation" },
+    { word: "ACTION", meaning: "All Changes Take Initiative Only Now" },
+    { word: "THINK", meaning: "True Habits Inspire Notable Knowledge" },
+    { word: "GROW", meaning: "Generate Results and Overcome Weakness" },
+    { word: "START", meaning: "Steps Taken Always Reach Targets" },
+    { word: "TEAM", meaning: "Together Everyone Achieves More" },
+    { word: "CREATE", meaning: "Courage to Realize Excellence And Transform Everything" }
+  ];
+  
+  // Set random motivational word
+  const setRandomWord = () => {
+    const randomIndex = Math.floor(Math.random() * motivationalWords.length);
+    const wordObj = motivationalWords[randomIndex];
+    motivationalWord.textContent = wordObj.word;
+    wordMeaning.textContent = wordObj.meaning;
+    
+    // Apply a new animation each time
+    const wordElement = document.querySelector('.word-of-day');
+    wordElement.classList.remove('aos-animate');
+    setTimeout(() => {
+      wordElement.classList.add('aos-animate');
+    }, 100);
+  };
+  
+  // Set initial word
+  setRandomWord();
+  
+  // Change word every 24 hours or on new day
+  const lastWordDate = localStorage.getItem('lastWordDate');
+  const today = new Date().toDateString();
+  
+  if (lastWordDate !== today) {
+    localStorage.setItem('lastWordDate', today);
+    // We already set a random word above
+  }
+  
+  // Add scroll event to change word
+  let lastScrollTop = 0;
+  let scrollThreshold = 300; // Amount of scroll before changing word
+  let scrollTimeout;
+  
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    
+    scrollTimeout = setTimeout(() => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Check if scrolled enough in either direction
+      if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+        setRandomWord();
+        lastScrollTop = scrollTop;
+      }
+    }, 100);
+  });
   
   const updateStats = () => {
     totalTasks = taskList.children.length;
@@ -115,7 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleEmptyState();
     });
     
+    // Add the new task with a fade-in animation
+    li.style.opacity = '0';
     taskList.appendChild(li);
+    setTimeout(() => {
+      li.style.opacity = '1';
+      li.style.transition = 'opacity 0.3s ease';
+    }, 10);
+    
     taskInput.value = '';
     toggleEmptyState();
   };

@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Flag to prevent confetti on initial load
   let isInitialLoad = true;
   
+  // Track the last action type to prevent confetti on delete
+  let lastAction = null; // 'complete', 'delete', 'add', 'edit'
+  
   // Stats tracking
   let totalTasks = 0;
   let completedTasks = 0;
@@ -94,7 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
     numbers.textContent = `${completedTasks} / ${totalTasks}`;
     
     // Trigger confetti when all tasks are completed, but not on initial load
-    if (!isInitialLoad && totalTasks > 0 && completedTasks === totalTasks) {
+    // AND not when tasks are deleted
+    if (!isInitialLoad && 
+        totalTasks > 0 && 
+        completedTasks === totalTasks && 
+        lastAction === 'complete') {
       Confetti();
     }
   };
@@ -134,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   const addTask = (text, completed = false) => {
+    lastAction = 'add';
     const taskText = text || taskInput.value.trim();
     if (!taskText) {
       return;
@@ -161,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     checkbox.addEventListener('change', () => {
+      lastAction = 'complete';
       const isChecked = checkbox.checked;
       li.classList.toggle('completed', isChecked);
       editBtn.disabled = isChecked;
@@ -171,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     editBtn.addEventListener('click', () => {
+      lastAction = 'edit';
       if(!checkbox.checked) {
         taskInput.value = li.querySelector('span').textContent;
         li.remove();
@@ -179,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     li.querySelector('.delete-btn').addEventListener('click', () => {
+      lastAction = 'delete';
       li.remove();
       toggleEmptyState();
     });

@@ -8,7 +8,7 @@ The app features a responsive design that works seamlessly across all devices, l
 
 ## 🎯 Live Demo
 
-Check out the live demo: [ust Do It Todo App](https://lukedoit.vercel.app/)
+Check out the live demo: [Just Do It Todo App](https://lukedoit.vercel.app/)
 
 ## 🌟 Key Features
 

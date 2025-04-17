@@ -1,2 +1,2 @@
 # lukedoit
-A beautiful, responsive Todo List application with a modern glass-morphism design. Keep track of your tasks, visualize your progress, and enjoy a satisfying confetti celebration when you complete everything on your list!
+A beautiful, responsive Todo List application with a modern glass-morphism design, to keep track of my tasks, visualize my daily progress, and enjoy a satisfying confetti celebration when i complete everything on my list!

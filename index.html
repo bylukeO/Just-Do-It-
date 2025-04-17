@@ -3,17 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LukeDoIt</title>
+  <title>Just Do It&#x2705;</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="todo-app">
-      <h1>To-Do App</h1>
+      <h1>You Can Do It, LFG&#x1F525;</h1>
+      
+      <!-- Word of the Day section with AOS animation -->
+      <div class="word-of-day" data-aos="fade-up" data-aos-duration="800">
+        <h3>Word of the Day</h3>
+        <p id="motivational-word">FOCUS</p>
+        <p id="word-meaning">Follow One Course Until Success</p>
+      </div>
+      
       <div class="stat-container">
         <div class="details">
           <h3>Keep It Up</h3>
@@ -26,7 +35,7 @@
         </div>
       </div>
       <form class="input-area">
-        <input type="text" id="task-input" placeholder="Whats the word for today bro?">
+        <input type="text" id="task-input" placeholder="Wagwan My Guy....?">
         <button type="submit" id="add-task"><i class="fa-solid fa-plus"></i></button>
       </form>
       <div class="todos-container">
@@ -36,6 +45,7 @@
       </div>
     </div>
   </div>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>

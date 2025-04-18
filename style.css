@@ -581,3 +581,64 @@ body {
     max-width: 120px;
   }
 }
+
+/* Landscape mode fixes */
+@media (orientation: landscape) and (max-height: 500px) {
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow: auto;
+  }
+  
+  .container {
+    padding: 10px;
+    height: auto;
+  }
+  
+  .todo-app {
+    max-height: none;
+    margin: 20px 0;
+    overflow-y: visible;
+    padding-top: 10px;
+  }
+  
+  /* Fix the sticky header issue */
+  .todo-app h1 {
+    position: relative;
+    top: auto;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    background: transparent;
+  }
+  
+  /* Fix the sticky input area */
+  .input-area {
+    position: relative;
+    top: auto;
+    z-index: 5;
+    margin: 10px 0;
+  }
+  
+  .todos-container {
+    max-height: 300px; /* Fixed height instead of vh */
+    overflow-y: auto;
+  }
+  
+  .word-of-day {
+    min-height: 120px;
+    padding: 10px;
+  }
+  
+  #motivational-word {
+    min-height: 35px;
+  }
+  
+  #word-meaning {
+    min-height: 35px;
+  }
+  
+  .scroll-to-top {
+    bottom: 10px;
+    right: 10px;
+  }
+}

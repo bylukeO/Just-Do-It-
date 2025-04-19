@@ -14,15 +14,65 @@ document.addEventListener('DOMContentLoaded', () => {
   const numbers = document.getElementById('numbers');
   const motivationalWord = document.getElementById('motivational-word');
   const wordMeaning = document.getElementById('word-meaning');
-  const scrollToTopBtn = document.getElementById('scrollToTop');
   const todoApp = document.querySelector('.todo-app');
   const statusMessage = document.getElementById('status-message');
   
-  // Flag to prevent confetti on initial load
+  // prevent confetti on initial load
   let isInitialLoad = true;
   
   // Track the last action type to prevent confetti on delete
   let lastAction = null; // 'complete', 'delete', 'add', 'edit'
+  
+  // Theme toggle functionality
+  const initThemeToggle = () => {
+    // Create theme toggle button
+    const themeToggleBtn = document.createElement('button');
+    themeToggleBtn.className = 'theme-toggle';
+    themeToggleBtn.setAttribute('aria-label', 'Toggle dark/light mode');
+    themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; // Default icon (dark mode icon)
+    
+    // Insert the button into the DOM
+    todoApp.appendChild(themeToggleBtn);
+    
+    // Check for saved theme preference or use default
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    // Apply the saved theme on page load
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // Update button icon based on current theme
+    updateThemeIcon(currentTheme);
+    
+    // Toggle theme when button is clicked
+    themeToggleBtn.addEventListener('click', () => {
+      // Get current theme
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      
+      // Toggle to other theme
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      // Update data-theme attribute
+      document.documentElement.setAttribute('data-theme', newTheme);
+      
+      // Save preference to local storage
+      localStorage.setItem('theme', newTheme);
+      
+      // Update button icon
+      updateThemeIcon(newTheme);
+    });
+    
+    // Function to update the theme icon
+    function updateThemeIcon(theme) {
+      if (theme === 'dark') {
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; // Light mode icon
+      } else {
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; // Dark mode icon
+      }
+    }
+  };
+  
+  // Initialize theme toggle
+  initThemeToggle();
   
   // Stats tracking
   let totalTasks = 0;
@@ -61,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       strings: [motivationalWords[currentWordIndex].word],
       typeSpeed: 60,
       startDelay: 300,
-      showCursor: false, // Remove cursor
+      showCursor: false, // No cursor to prevent layout issues
       onComplete: (self) => {
         // Once the word is typed, show the meaning
         new Typed('#word-meaning', {
@@ -118,59 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
   });
   
-  // Check if scroll to top button should be shown
-  const checkScrollPosition = () => {
-    // Show scroll button if there are many tasks
-    if (taskList.children.length > 7) {
-      scrollToTopBtn.style.display = 'flex';
-      
-      // Check scroll position within todos container
-      if (todosContainer.scrollTop > 100) {
-        scrollToTopBtn.classList.add('show');
-      } else {
-        scrollToTopBtn.classList.remove('show');
-      }
-    } else {
-      scrollToTopBtn.style.display = 'none';
-    }
-  };
-  
-  // Listen for scroll events on the todos container
-  todosContainer.addEventListener('scroll', () => {
-    checkScrollPosition();
-  });
-  
-  // Also listen for scroll events on the main app container
-  todoApp.addEventListener('scroll', () => {
-    checkScrollPosition();
-  });
-  
-  // And on the document body for good measure
-  document.addEventListener('scroll', () => {
-    checkScrollPosition();
-  });
-  
-  // Scroll to top button functionality
-  scrollToTopBtn.addEventListener('click', () => {
-    // Scroll the todo container to the top
-    todosContainer.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-    
-    // Also scroll the main app container to the top
-    todoApp.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-    
-    // And the document if needed
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-  
   const updateStats = () => {
     totalTasks = taskList.children.length;
     completedTasks = document.querySelectorAll('#task-list li.completed').length;
@@ -181,9 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Update the numbers display
     numbers.textContent = `${completedTasks} / ${totalTasks}`;
-    
-    // Check if scroll button should be shown
-    checkScrollPosition();
     
     // Update status message based on task completion
     if (totalTasks > 0 && completedTasks === totalTasks) {
@@ -321,9 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize the empty state after loading tasks
   toggleEmptyState();
-  
-  // Initial check for scroll button
-  checkScrollPosition();
 });
 
 const Confetti = () => {

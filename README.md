@@ -8,6 +8,8 @@ A beautiful, responsive Todo List application with a modern glass-morphism desig
 
 - **Clean, Modern UI**: Aesthetic glass-morphic design with subtle animations
 - **Dark/Light Theme**: Toggle between color schemes based on preference
+- **Task Categories**: Organize tasks by personal, work, and urgent categories
+- **Category Filtering**: Focus on specific types of tasks with one-click filters
 - **Task Management**: Add, edit, and delete tasks easily
 - **Progress Tracking**: Visual progress bar and completion counter
 - **Data Persistence**: Local storage saves your tasks between sessions
@@ -76,13 +78,50 @@ JustDoIt/
 
 ## 🔧 How to Use
 
-1. **Add a Task**: Type your task in the input field and press Enter or click the "+" button
+1. **Add a Task**: Type your task in the input field, select a category icon, and press Enter or click the "+" button
 2. **Edit a Task**: Click the pencil icon on any incomplete task to edit it
 3. **Delete a Task**: Click the trash icon to remove a task
 4. **Complete a Task**: Check the checkbox to mark a task as complete
-5. **Track Progress**: Watch your progress bar and counter update in real-time
-6. **Switch Theme**: Click the sun/moon icon in the top-right to toggle between light and dark modes
-7. **Celebration**: Complete all tasks to see a confetti celebration!
+5. **Select Category**: Click on a category icon (Personal, Work, Urgent) when adding a task
+6. **Filter Tasks**: Click on category buttons (All, Work, Personal, Urgent) to filter tasks
+6. **Track Progress**: Watch your progress bar and counter update in real-time
+7. **Switch Theme**: Click the sun/moon icon in the top-right to toggle between light and dark modes
+8. **Celebration**: Complete all tasks to see a confetti celebration!
+
+## Task Categories Feature
+
+### Overview
+
+The app now includes task categorization and filtering, enabling users to organize their tasks by type and focus on specific categories.
+
+### Key Features
+
+- **Simple Categories**: Three default categories - Personal, Work, and Urgent
+- **Visual Category Tags**: Colored tags make it easy to identify task types at a glance
+- **Icon-Based Category Selection**: Intuitive icon buttons for selecting task categories
+- **Color-Coded Tasks**: Tasks are visually styled based on their category
+- **Category Filters**: One-click filtering to focus on specific task types
+- **Category Persistence**: Category data is saved between sessions
+
+### Implementation Details
+
+The task categorization implementation uses:
+- Data attributes to store category information
+- localStorage for persistence
+- Visual category tags with category-specific colors
+- Color-coded backgrounds for tasks based on their category
+- Icon-based category selection buttons
+- Simple filtering mechanism that preserves task order
+
+### User Experience
+
+Users can:
+- Assign categories when creating tasks with intuitive icon buttons
+- Visualize task types with color-coded tags and backgrounds
+- Filter the task list to focus on specific categories
+- Edit tasks to change their categories
+- Have categories persist across browser sessions
+- Quickly identify task types through consistent color schemes
 
 ## Dark/Light Theme Toggle Feature
 
@@ -171,8 +210,8 @@ Possible future improvements:
 
 ## 💾 Local Storage
 
-The app uses browser local storage to save your tasks and theme preferences. This means:
-- Your tasks persist even if you close the browser
+The app uses browser local storage to save your tasks, categories, and theme preferences. This means:
+- Your tasks and their categories persist even if you close the browser
 - Your theme preference is remembered between sessions
 - Data is stored only on your device (not on any server)
 - Clearing browser data will remove saved tasks and preferences
@@ -185,7 +224,7 @@ Planned features for future releases:
 - [ ] Cloud storage for task persistence across devices
 - [ ] Previous day tasks history and analytics
 - [ ] Hourly email reminders for important tasks
-- [ ] Task categories and filtering
+- [x] Task categories and filtering
 - [ ] Due dates and reminders
 - [ ] Drag and drop task reordering
 - [ ] Export/Import task lists
@@ -219,8 +258,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ---
 
-Made with ❤️ byLUKE
+Made with ❤️ by LUKE
 
 *Theme toggle feature added on April 19, 2025*
+*Task Categories feature added on April 26, 2025*
+
 
 If you found this project helpful or used it as a base for your own work, consider giving it a ⭐!

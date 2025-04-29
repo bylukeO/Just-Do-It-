@@ -38,8 +38,37 @@
       </div>
       <form class="input-area">
         <input type="text" id="task-input" placeholder="What are you doing today....?">
+        <div class="category-select">
+          <button type="button" class="category-icon-btn" data-category="personal" title="Personal">
+            <i class="fa-solid fa-user"></i>
+          </button>
+          <button type="button" class="category-icon-btn" data-category="work" title="Work">
+            <i class="fa-solid fa-briefcase"></i>
+          </button>
+          <button type="button" class="category-icon-btn" data-category="urgent" title="Urgent">
+            <i class="fa-solid fa-exclamation"></i>
+          </button>
+        </div>
         <button type="submit" id="add-task"><i class="fa-solid fa-plus"></i></button>
       </form>
+      <div class="category-filters">
+        <button class="category-btn active" data-category="all">
+          <span>All</span>
+          <i class="fa-solid fa-list"></i>
+        </button>
+        <button class="category-btn" data-category="work">
+          <span>Work</span>
+          <i class="fa-solid fa-briefcase"></i>
+        </button>
+        <button class="category-btn" data-category="personal">
+          <span>Personal</span>
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <button class="category-btn" data-category="urgent">
+          <span>Urgent</span>
+          <i class="fa-solid fa-exclamation"></i>
+        </button>
+      </div>
       <div class="todos-container">
         <ul id="task-list">
         </ul>

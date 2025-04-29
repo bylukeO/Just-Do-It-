@@ -17,6 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoApp = document.querySelector('.todo-app');
   const statusMessage = document.getElementById('status-message');
   
+  // Track selected category
+  let selectedCategory = 'personal';
+  
+  // Initialize category icon buttons
+  const categoryIconBtns = document.querySelectorAll('.category-icon-btn');
+  categoryIconBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all buttons
+      categoryIconBtns.forEach(b => b.classList.remove('active'));
+      // Add active class to clicked button
+      btn.classList.add('active');
+      // Update selected category
+      selectedCategory = btn.dataset.category;
+    });
+  });
+  
+  // Set initial active category button
+  categoryIconBtns[0].classList.add('active');
+  
   // prevent confetti on initial load
   let isInitialLoad = true;
   
@@ -200,7 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveTasksToLocalStorage = () => {
     const tasks = Array.from(taskList.querySelectorAll('li')).map(li => ({
       text: li.querySelector('span').textContent,
-      completed: li.querySelector('.checkbox').checked
+      completed: li.querySelector('.checkbox').checked,
+      category: li.dataset.category || 'personal'
     }));
     
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -214,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add saved tasks
     tasks.forEach(task => {
-      addTask(task.text, task.completed);
+      addTask(task.text, task.completed, task.category || 'personal');
     });
     
     // Set flag to false after all tasks are loaded
@@ -232,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveTasksToLocalStorage();
   };
   
-  const addTask = (text, completed = false) => {
+  const addTask = (text, completed = false, category = selectedCategory) => {
     lastAction = 'add';
     const taskText = text || taskInput.value.trim();
     if (!taskText) {
@@ -240,9 +260,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const li = document.createElement('li');
+    li.dataset.category = category;
     li.innerHTML = `
       <input type="checkbox" class="checkbox" ${completed ? 'checked' : ''}>
       <span>${taskText}</span>
+      <div class="category-tag ${category}">${category}</div>
       <div class="task-buttons">
         <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
         <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
@@ -268,13 +290,19 @@ document.addEventListener('DOMContentLoaded', () => {
       editBtn.style.opacity = isChecked ? '0.5' : '1';
       editBtn.style.pointerEvents = isChecked ? 'none' : 'auto';
       updateStats();
-      saveTasksToLocalStorage(); // Save when task status changes
+      saveTasksToLocalStorage();
     });
     
     editBtn.addEventListener('click', () => {
       lastAction = 'edit';
       if(!checkbox.checked) {
         taskInput.value = li.querySelector('span').textContent;
+        // Update selected category for editing
+        selectedCategory = li.dataset.category;
+        // Update active category button
+        categoryIconBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.category === selectedCategory);
+        });
         li.remove();
         toggleEmptyState();
       }
@@ -298,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleEmptyState();
   };
   
+  // Update event listeners for adding tasks
   addTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
     addTask();
@@ -315,6 +344,36 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize the empty state after loading tasks
   toggleEmptyState();
+  
+  // Add category filter functionality
+  const initCategoryFilters = () => {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        
+        // Add active class to clicked button
+        btn.classList.add('active');
+        
+        const category = btn.dataset.category;
+        
+        // Filter tasks
+        const tasks = taskList.querySelectorAll('li');
+        tasks.forEach(task => {
+          if (category === 'all' || task.dataset.category === category) {
+            task.style.display = 'flex';
+          } else {
+            task.style.display = 'none';
+          }
+        });
+      });
+    });
+  };
+  
+  // Initialize category filters after DOM content loaded
+  initCategoryFilters();
 });
 
 const Confetti = () => {

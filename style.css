@@ -3,7 +3,7 @@
 /* Theme Variables */
 :root {
   /* Light theme (default) */
-  --bg-image: url(images/background.jpg);
+  --bg-image: url('./images/background.jpg');
   --app-bg: rgba(255, 255, 255, 0.18);
   --app-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
   --text-color: white;
@@ -18,11 +18,21 @@
   --scrollbar-track: rgba(255, 194, 209, 0.2);
   --scrollbar-thumb: rgba(255, 111, 145, 0.5);
   --scrollbar-thumb-hover: rgba(255, 111, 145, 0.8);
+
+  /* Category Colors - Light Theme */
+  --personal-color: #FF6B6B;  /* Coral Red */
+  --work-color: #4ECDC4;      /* Turquoise */
+  --urgent-color: #FFD166;    /* Yellow */
+  
+  /* Category Backgrounds - Light Theme */
+  --personal-bg: rgba(255, 107, 107, 0.2);
+  --work-bg: rgba(78, 205, 196, 0.2);
+  --urgent-bg: rgba(255, 209, 102, 0.2);
 }
 
 /* Dark theme */
 [data-theme="dark"] {
-  --bg-image: url(images/darkmode.jpg); /* You'll need a dark background image */
+  --bg-image: url('./images/darkmode.jpg');
   --app-bg: rgba(30, 30, 40, 0.8);
   --app-shadow: 0 0 100px rgba(0, 0, 0, 0.7);
   --text-color: #e0e0e0;
@@ -37,6 +47,16 @@
   --scrollbar-track: rgba(60, 60, 80, 0.4);
   --scrollbar-thumb: rgba(100, 100, 130, 0.5);
   --scrollbar-thumb-hover: rgba(100, 100, 130, 0.8);
+
+  /* Category Colors - Dark Theme */
+  --personal-color: #FF8E8E;  /* Lighter Coral Red */
+  --work-color: #6EE7E0;      /* Lighter Turquoise */
+  --urgent-color: #FFE066;    /* Lighter Yellow */
+  
+  /* Category Backgrounds - Dark Theme */
+  --personal-bg: rgba(255, 142, 142, 0.15);
+  --work-bg: rgba(110, 231, 224, 0.15);
+  --urgent-bg: rgba(255, 224, 102, 0.15);
 }
 
 * {
@@ -51,11 +71,15 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: var(--bg-image) no-repeat center center/cover;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow: hidden;
   position: relative;
   height: 100vh;
-  transition: background 0.5s ease;
+  transition: background-image 0.5s ease;
 }
 
 .container {
@@ -71,7 +95,7 @@ body {
 .todo-app {
   width: 100%;
   max-width: 400px;
-  padding: 2rem;
+  padding: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +118,7 @@ body {
   font-size: 2rem;
   text-align: center;
   width: 100%;
-  margin-bottom: 5px;
+
   position: sticky;
   top: 0;
   background: var(--header-bg);
@@ -135,7 +159,7 @@ body {
 /* Word of the Day styling */
 .word-of-day {
   width: 100%;
-  padding: 20px 15px;
+  padding: 5px 5px;
   background: var(--item-bg);
   border-radius: 15px;
   text-align: center;
@@ -143,7 +167,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   position: relative;
   z-index: 5;
-  min-height: 160px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -156,21 +180,21 @@ body {
 }
 
 .word-of-day h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 1rem;
+  margin-bottom: 5px;
   color: var(--text-color);
   transition: color 0.3s ease;
 }
 
 #motivational-word {
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: bold;
   letter-spacing: 2px;
-  margin: 10px 0;
-  padding-bottom: 5px;
+  margin: 2px 0;
+  padding-bottom: 1px;
   color: var(--accent-secondary);
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  min-height: 50px;
+  min-height: 40px;
   overflow-wrap: break-word; /* Allow word breaking */
   word-break: break-all; /* Break words if needed */
   display: block; /* Make it a block element */
@@ -180,11 +204,11 @@ body {
 }
 
 #word-meaning {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-style: italic;
   opacity: 0.8;
-  min-height: 40px;
-  margin-top: 10px;
+  min-height: 30px;
+  margin-top: 1px;
   overflow-wrap: break-word; /* Allow word breaking */
   display: block; /* Make it a block element */
   width: 100%; /* Full width */
@@ -286,6 +310,7 @@ body {
   padding: 10px;
   border-radius: 30px;
   transition: background 0.3s ease;
+  gap: 5px;
 }
 
 .input-area input {
@@ -298,6 +323,7 @@ body {
   background: var(--input-bg);
   color: var(--input-color);
   transition: background 0.3s ease, color 0.3s ease;
+  min-width: 0;
 }
 
 .input-area input::placeholder {
@@ -389,6 +415,7 @@ body {
   transition: box-shadow 0.2s ease, background 0.3s ease, color 0.3s ease;
   width: 100%;
   box-sizing: border-box;
+  gap: 8px;
 }
 
 #task-list li:hover {
@@ -425,7 +452,7 @@ body {
   margin-left: 10px;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  max-width: calc(100% - 90px);
+  max-width: calc(100% - 120px);
   transition: color 0.3s ease;
 }
 
@@ -437,6 +464,7 @@ body {
 .task-buttons {
   display: flex;
   gap: 5px;
+  flex-shrink: 0;
 }
 
 .task-buttons button {
@@ -466,6 +494,168 @@ body {
   background: var(--accent-color);
 }
 
+/* Category Filters */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.category-btn {
+  padding: 5px 10px;
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 15px;
+  color: var(--text-color);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.category-btn span {
+  order: 1;
+}
+
+.category-btn i {
+  order: 2;
+  font-size: 0.7rem;
+}
+
+.category-btn:hover {
+  transform: scale(1.05);
+}
+
+.category-btn.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* Category selector and tag */
+.category-select {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.category-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--input-bg);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.category-icon-btn[data-category="personal"] {
+  color: var(--personal-color);
+}
+
+.category-icon-btn[data-category="work"] {
+  color: var(--work-color);
+}
+
+.category-icon-btn[data-category="urgent"] {
+  color: var(--urgent-color);
+}
+
+.category-icon-btn:hover {
+  transform: scale(1.1);
+  background: var(--item-bg);
+}
+
+.category-icon-btn.active {
+  background: var(--item-bg);
+  box-shadow: 0 0 5px currentColor;
+}
+
+.category-tag {
+  position: absolute;
+  top: -5px;
+  right: 35px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  background: var(--accent-secondary);
+  white-space: nowrap;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-tag.work {
+  background: var(--work-color);
+  color: var(--text-color);
+}
+
+.category-tag.personal {
+  background: var(--personal-color);
+  color: var(--text-color);
+}
+
+.category-tag.urgent {
+  background: var(--urgent-color);
+  color: var(--text-color);
+}
+
+/* Category filter buttons */
+.category-btn[data-category="personal"] {
+  background: var(--personal-bg);
+  border-color: var(--personal-color);
+}
+
+.category-btn[data-category="work"] {
+  background: var(--work-bg);
+  border-color: var(--work-color);
+}
+
+.category-btn[data-category="urgent"] {
+  background: var(--urgent-bg);
+  border-color: var(--urgent-color);
+}
+
+.category-btn.active[data-category="personal"] {
+  background: var(--personal-color);
+  border-color: var(--personal-color);
+  color: var(--text-color);
+}
+
+.category-btn.active[data-category="work"] {
+  background: var(--work-color);
+  border-color: var(--work-color);
+  color: var(--text-color);
+}
+
+.category-btn.active[data-category="urgent"] {
+  background: var(--urgent-color);
+  border-color: var(--urgent-color);
+  color: var(--text-color);
+}
+
+/* Task items with category backgrounds */
+#task-list li[data-category="personal"] {
+  background: var(--personal-bg);
+  border: 1px solid var(--personal-color);
+}
+
+#task-list li[data-category="work"] {
+  background: var(--work-bg);
+  border: 1px solid var(--work-color);
+}
+
+#task-list li[data-category="urgent"] {
+  background: var(--urgent-bg);
+  border: 1px solid var(--urgent-color);
+}
 
 /* Media Queries for Responsive Design */
 
@@ -492,6 +682,7 @@ body {
   .input-area {
     top: 60px;
     padding: 8px;
+    gap: 4px;
   }
   
   .word-of-day {
@@ -539,8 +730,14 @@ body {
   }
   
   #task-list li {
-    font-size: 1rem;
     padding: 6px 8px;
+    font-size: 1rem;
+    gap: 6px;
+  }
+  
+  #task-list li span {
+    max-width: calc(100% - 100px);
+    font-size: 0.9rem;
   }
   
   .task-buttons button {
@@ -562,6 +759,27 @@ body {
   
   .theme-toggle i {
     font-size: 1rem;
+  }
+  
+  .category-icon-btn {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .category-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    gap: 4px;
+  }
+  
+  .category-btn i {
+    font-size: 0.6rem;
+  }
+  
+  .category-tag {
+    font-size: 0.6rem;
+    max-width: 50px;
+    right: 30px;
   }
 }
 
@@ -610,6 +828,7 @@ body {
   
   .input-area {
     padding: 5px;
+    gap: 3px;
   }
   
   .input-area input {
@@ -622,8 +841,14 @@ body {
   }
   
   #task-list li {
-    font-size: 0.9rem;
     padding: 5px 7px;
+    font-size: 0.9rem;
+    gap: 5px;
+  }
+  
+  #task-list li span {
+    max-width: calc(100% - 90px);
+    font-size: 0.8rem;
   }
   
   .task-buttons button {
@@ -641,6 +866,27 @@ body {
     height: 30px;
     top: 8px;
     right: 8px;
+  }
+  
+  .category-icon-btn {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .category-btn {
+    padding: 3px 6px;
+    font-size: 0.65rem;
+    gap: 3px;
+  }
+  
+  .category-btn i {
+    font-size: 0.55rem;
+  }
+  
+  .category-tag {
+    font-size: 0.55rem;
+    max-width: 45px;
+    right: 25px;
   }
 }
 
